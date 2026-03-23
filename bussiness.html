@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local Business Manager Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+}
+
+/* HEADER */
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(0,0,0,0.7);
+  padding:15px;
+  text-align:center;
+  backdrop-filter:blur(10px);
+}
+
+h2{
+  margin-top:70px;
+  text-align:center;
+}
+
+/* GRID */
+.container{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  width:250px;
+  background:rgba(255,255,255,0.1);
+  padding:15px;
+  border-radius:12px;
+  backdrop-filter:blur(10px);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:scale(1.05);
+}
+
+/* BUTTON */
+button{
+  margin-top:10px;
+  padding:8px 12px;
+  background:#22c55e;
+  border:none;
+  border-radius:20px;
+  color:white;
+  cursor:pointer;
+}
+
+.delete{
+  background:#ef4444;
+}
+
+/* FORM */
+input{
+  width:90%;
+  padding:8px;
+  margin:5px;
+  border-radius:5px;
+  border:none;
+}
+
+/* TABLE */
+table{
+  width:90%;
+  margin:auto;
+  margin-top:20px;
+  background:rgba(255,255,255,0.1);
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:10px;
+  border:1px solid rgba(255,255,255,0.2);
+  text-align:center;
+}
+
+/* TOTAL */
+.total{
+  text-align:center;
+  font-size:22px;
+  margin-top:10px;
+  color:#22c55e;
+}
+
+/* SECTION */
+section{
+  padding:40px 20px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+🏪 Local Business Management System
+</header>
+
+<!-- ADD PRODUCT -->
+<section>
+<h2>➕ Add Product / Service</h2>
+
+<input id="name" placeholder="Item Name">
+<input id="price" placeholder="Price">
+
+<button onclick="addItem()">Add Item</button>
+</section>
+
+<!-- PRODUCTS -->
+<section>
+<h2>📦 Inventory</h2>
+
+<div class="container" id="items"></div>
+</section>
+
+<!-- BILLING -->
+<section>
+<h2>🧾 Billing System</h2>
+
+<div class="card" style="margin:auto;width:300px;">
+<input id="customer" placeholder="Customer Name">
+<button onclick="generateBill()">Generate Bill</button>
+
+<p id="bill"></p>
+</div>
+
+<div class="total">
+Total Revenue: ₹<span id="revenue">0</span>
+</div>
+</section>
+
+<!-- SALES TABLE -->
+<section>
+<h2>📊 Sales History</h2>
+
+<table>
+<thead>
+<tr>
+<th>Customer</th>
+<th>Item</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody id="sales"></tbody>
+</table>
+</section>
+
+<script>
+
+let items = JSON.parse(localStorage.getItem("items")) || [];
+let sales = JSON.parse(localStorage.getItem("sales")) || [];
+let revenue = 0;
+
+// LOAD
+function load(){
+
+  let box = document.getElementById("items");
+  box.innerHTML = "";
+
+  items.forEach((i,index)=>{
+
+    box.innerHTML += `
+    <div class="card">
+      <h3>${i.name}</h3>
+      <p>₹${i.price}</p>
+      <button onclick="sell(${index})">Sell</button>
+      <button class="delete" onclick="removeItem(${index})">Delete</button>
+    </div>
+    `;
+  });
+
+  // SALES
+  let tbody = document.getElementById("sales");
+  tbody.innerHTML = "";
+
+  revenue = 0;
+
+  sales.forEach(s=>{
+    revenue += Number(s.price);
+
+    tbody.innerHTML += `
+    <tr>
+      <td>${s.customer}</td>
+      <td>${s.item}</td>
+      <td>₹${s.price}</td>
+    </tr>
+    `;
+  });
+
+  document.getElementById("revenue").innerText = revenue;
+}
+
+// ADD ITEM
+function addItem(){
+  let name = document.getElementById("name").value;
+  let price = document.getElementById("price").value;
+
+  items.push({name,price});
+
+  localStorage.setItem("items",JSON.stringify(items));
+
+  load();
+}
+
+// SELL ITEM
+function sell(index){
+  let customer = prompt("Customer Name:");
+
+  if(!customer) return;
+
+  let item = items[index];
+
+  sales.push({
+    customer,
+    item:item.name,
+    price:item.price
+  });
+
+  localStorage.setItem("sales",JSON.stringify(sales));
+
+  alert("Sale Completed!");
+
+  load();
+}
+
+// REMOVE ITEM
+function removeItem(index){
+  items.splice(index,1);
+  localStorage.setItem("items",JSON.stringify(items));
+  load();
+}
+
+// BILL
+function generateBill(){
+  let customer = document.getElementById("customer").value;
+
+  let total = sales
+  .filter(s=>s.customer===customer)
+  .reduce((sum,s)=>sum+Number(s.price),0);
+
+  document.getElementById("bill").innerText =
+  "Customer: " + customer + " | Total Spent: ₹" + total;
+}
+
+load();
+
+</script>
+
+</body>
+</html>
