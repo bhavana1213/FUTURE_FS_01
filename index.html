@@ -11,22 +11,21 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
-  background: linear-gradient(135deg,#1e3c72,#2a5298);
+  background: linear-gradient(135deg,#141e30,#243b55);
   color:white;
   scroll-behavior:smooth;
 }
 
-/* Navbar */
 header{
   position:fixed;
   width:100%;
   top:0;
   display:flex;
   justify-content:center;
-  gap:30px;
+  gap:25px;
   padding:15px;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
 }
 
 header a{
@@ -35,12 +34,15 @@ header a{
   font-weight:bold;
 }
 
-/* Sections */
+header a:hover{
+  color:#ffd369;
+}
+
 section{
   padding:100px 20px;
   text-align:center;
   opacity:0;
-  transform:translateY(40px);
+  transform:translateY(50px);
   transition:1s;
 }
 
@@ -49,33 +51,32 @@ section.show{
   transform:translateY(0);
 }
 
-/* Hero */
 .hero{
   height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
+  align-items:center;
 }
 
 .hero h1{
-  font-size:55px;
+  font-size:60px;
 }
 
 .hero span{
   color:#ffd369;
 }
 
-/* Buttons */
 .btn{
-  margin-top:20px;
-  padding:12px 25px;
+  margin-top:25px;
+  padding:12px 28px;
   background:#ffd369;
   color:black;
-  border-radius:25px;
+  border-radius:30px;
   text-decoration:none;
+  font-weight:bold;
 }
 
-/* Cards */
 .card{
   background: rgba(255,255,255,0.1);
   backdrop-filter: blur(15px);
@@ -84,41 +85,45 @@ section.show{
   border-radius:15px;
   display:inline-block;
   width:260px;
-  transition:0.3s;
 }
 
-.card:hover{
-  transform:scale(1.05);
-}
-
-/* Skills */
 .skills span{
   display:inline-block;
-  padding:10px;
-  margin:5px;
+  padding:10px 15px;
+  margin:6px;
   background: rgba(255,255,255,0.2);
-  border-radius:20px;
+  border-radius:25px;
 }
 
-/* Form */
 form input,form textarea{
   width:80%;
-  padding:10px;
+  padding:12px;
   margin:10px;
   border:none;
   border-radius:10px;
 }
 
 form button{
-  padding:10px 20px;
+  padding:10px 25px;
   background:#ffd369;
   border:none;
-  border-radius:20px;
+  border-radius:25px;
 }
 
-/* Footer */
 footer{
   padding:20px;
+  text-align:center;
+}
+
+#topBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  padding:10px;
+  border:none;
+  border-radius:50%;
+  background:#ffd369;
+  display:none;
 }
 </style>
 </head>
@@ -130,27 +135,22 @@ footer{
 <a href="#about">About</a>
 <a href="#education">Education</a>
 <a href="#skills">Skills</a>
+<a href="#certifications">Certifications</a>
 <a href="#projects">Projects</a>
 <a href="#contact">Contact</a>
 </header>
 
-<!-- HERO -->
 <section id="home" class="hero show">
 <h1>Hi, I'm <span>CH. BHAVANA</span></h1>
 <h2 id="typing"></h2>
-<a href="#" class="btn">Download Resume</a>
+<a href="resume.pdf" class="btn" download>Download Resume</a>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
 <h2>About Me</h2>
-<p>
-I am CH. BHAVANA, a Computer Science student from Gayathri Vidhya Parishad College of Engineering for Women.
-I am passionate about building modern, responsive and user-friendly websites.
-</p>
+<p>I am a passionate Computer Science student interested in web development and building modern, user-friendly applications.</p>
 </section>
 
-<!-- EDUCATION -->
 <section id="education">
 <h2>Education</h2>
 <div class="card">
@@ -160,7 +160,6 @@ I am passionate about building modern, responsive and user-friendly websites.
 </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills" class="skills">
 <h2>Skills</h2>
 <span>HTML</span>
@@ -168,15 +167,32 @@ I am passionate about building modern, responsive and user-friendly websites.
 <span>JavaScript</span>
 <span>React</span>
 <span>Node.js</span>
+<span>Python</span>
+<span>SQL</span>
+<span>GitHub</span>
 </section>
 
-<!-- PROJECTS -->
+<section id="certifications">
+<h2>Certifications</h2>
+
+<div class="card">
+<h3>NASSCOM FutureSkills - Gen AI Hackathon</h3>
+<p>Participated in Generative AI hackathon</p>
+</div>
+
+<div class="card">
+<h3>FutureSkills - Data Visualization</h3>
+<p>Completed certification in data visualization</p>
+</div>
+
+</section>
+
 <section id="projects">
 <h2>Projects</h2>
 
 <div class="card">
 <h3>Portfolio Website</h3>
-<p>Modern responsive personal portfolio</p>
+<p>Responsive portfolio using HTML, CSS, JS</p>
 </div>
 
 <div class="card">
@@ -186,7 +202,6 @@ I am passionate about building modern, responsive and user-friendly websites.
 
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
 <h2>Contact Me</h2>
 
@@ -198,32 +213,40 @@ I am passionate about building modern, responsive and user-friendly websites.
 </form>
 
 <p id="msg"></p>
+
+<br>
+<p>Email: cherukuribhavana13@gmail.com</p>
+<p>Phone: 9398256756</p>
+<p>GitHub: https://github.com/bhavana1213</p>
+
 </section>
 
 <footer>
 <p>© 2026 CH. BHAVANA | All Rights Reserved</p>
 </footer>
 
+<button id="topBtn" onclick="scrollTopFun()">↑</button>
+
 <script>
 // Typing Effect
-const text = ["Web Developer","CSE Student","Frontend Enthusiast"];
-let i=0,j=0,current="",isDeleting=false;
+const text=["Web Developer","Frontend Developer","CSE Student"];
+let i=0,j=0,isDeleting=false;
 
 function type(){
-  current=text[i];
+  let current=text[i];
   document.getElementById("typing").innerText=current.substring(0,j);
 
-  if(!isDeleting && j<current.length){ j++; }
-  else if(isDeleting && j>0){ j--; }
+  if(!isDeleting && j<current.length) j++;
+  else if(isDeleting && j>0) j--;
 
-  if(j==current.length){ isDeleting=true; setTimeout(type,1000); return;}
-  if(j==0){ isDeleting=false; i=(i+1)%text.length;}
+  if(j===current.length){ isDeleting=true; setTimeout(type,1000); return;}
+  if(j===0){ isDeleting=false; i=(i+1)%text.length;}
 
-  setTimeout(type,100);
+  setTimeout(type,80);
 }
 type();
 
-// Scroll Animation
+// Scroll animation
 const sections=document.querySelectorAll("section");
 window.addEventListener("scroll",()=>{
   sections.forEach(sec=>{
@@ -231,7 +254,14 @@ window.addEventListener("scroll",()=>{
       sec.classList.add("show");
     }
   });
+
+  document.getElementById("topBtn").style.display = window.scrollY>300 ? "block":"none";
 });
+
+// Scroll top
+function scrollTopFun(){
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 
 // Form
 function sendMsg(e){
