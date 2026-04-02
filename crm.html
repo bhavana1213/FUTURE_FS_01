@@ -1,143 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Mini CRM - Lead Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modern CRM</title>
 
 <style>
 body{
-  font-family: Arial;
-  background: linear-gradient(135deg,#1e3c72,#2a5298);
+  font-family:Arial;
+  background:#0f172a;
   color:white;
+  margin:0;
+}
+
+
+/* HEADER */
+.header{
   text-align:center;
+  padding:15px;
+  background:#020617;
+  font-size:20px;
 }
 
-h1{
-  margin-top:20px;
-}
-
-.container{
-  margin:20px auto;
-  width:80%;
+/* FORM */
+.form{
+  padding:15px;
 }
 
 input{
-  padding:10px;
-  margin:5px;
-  width:200px;
+  width:100%;
+  padding:12px;
+  margin:6px 0;
   border:none;
-  border-radius:5px;
+  border-radius:8px;
 }
 
 button{
-  padding:10px 15px;
-  margin:5px;
+  width:100%;
+  padding:12px;
+  background:#38bdf8;
   border:none;
-  border-radius:5px;
-  cursor:pointer;
-  background:#ffd369;
+  border-radius:8px;
   font-weight:bold;
 }
 
+/* CARD */
 .card{
-  background:rgba(255,255,255,0.1);
+  background:#1e293b;
+  margin:10px;
   padding:15px;
-  margin:10px auto;
-  width:60%;
-  border-radius:10px;
-  backdrop-filter:blur(10px);
+  border-radius:12px;
 }
 
 .status{
   font-weight:bold;
-  color:#ffd369;
+}
+
+.new{color:yellow;}
+.contacted{color:cyan;}
+.converted{color:lime;}
+
+.actions button{
+  width:auto;
+  margin:5px 3px;
+  padding:6px 10px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>📊 Client Lead Management System</h1>
+<div class="header">📱 Modern CRM</div>
 
-<div class="container">
+<div class="form">
+  <input id="name" placeholder="Name">
+  <input id="email" placeholder="Email">
+  <input id="phone" placeholder="Phone">
+  <input id="source" placeholder="Source">
 
-<input id="name" placeholder="Name">
-<input id="email" placeholder="Email">
-<input id="source" placeholder="Source">
-
-<button onclick="addLead()">Add Lead</button>
-
+  <button onclick="addLead()">Add Lead</button>
 </div>
 
-<h2>📌 Leads</h2>
 <div id="list"></div>
 
 <script>
 
-// Load data
 let leads = JSON.parse(localStorage.getItem("leads")) || [];
 
-// Add Lead
 function addLead(){
-  let lead = {
-    id: Date.now(),
-    name: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    source: document.getElementById("source").value,
-    status: "New",
-    notes: ""
-  };
 
-  leads.push(lead);
-  localStorage.setItem("leads", JSON.stringify(leads));
-  showLeads();
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let phone = document.getElementById("phone").value;
+  let source = document.getElementById("source").value;
+
+  if(!name || !email){
+    alert("Enter Name & Email");
+    return;
+  }
+
+  leads.push({
+    id: Date.now(),
+    name,
+    email,
+    phone,
+    source,
+    status:"New"
+  });
+
+  save();
+
+  document.querySelectorAll("input").forEach(i=>i.value="");
 }
 
-// Show Leads
 function showLeads(){
+
   let list = document.getElementById("list");
-  list.innerHTML = "";
+  list.innerHTML="";
 
-  leads.forEach(l => {
+  leads.forEach(l=>{
+
+    let cls =
+      l.status==="New"?"new":
+      l.status==="Contacted"?"contacted":"converted";
+
     list.innerHTML += `
-      <div class="card">
-        <h3>${l.name}</h3>
-        <p>${l.email}</p>
-        <p>Source: ${l.source}</p>
-        <p class="status">Status: ${l.status}</p>
+    <div class="card">
+      <h3>${l.name}</h3>
+      <p>${l.email}</p>
+      <p>${l.phone}</p>
+      <p>📍 ${l.source}</p>
+      <p class="status ${cls}">${l.status}</p>
 
-        <button onclick="contacted(${l.id})">Mark Contacted</button>
+      <div class="actions">
+        <button onclick="contacted(${l.id})">Contacted</button>
         <button onclick="convert(${l.id})">Convert</button>
         <button onclick="removeLead(${l.id})">Delete</button>
       </div>
-    `;
+    </div>`;
   });
 }
 
-// Update status
 function contacted(id){
-  leads = leads.map(l => l.id === id ? {...l, status:"Contacted"} : l);
+  leads = leads.map(l=>l.id===id?{...l,status:"Contacted"}:l);
   save();
 }
 
 function convert(id){
-  leads = leads.map(l => l.id === id ? {...l, status:"Converted"} : l);
+  leads = leads.map(l=>l.id===id?{...l,status:"Converted"}:l);
   save();
 }
 
-// Delete
 function removeLead(id){
-  leads = leads.filter(l => l.id !== id);
+  leads = leads.filter(l=>l.id!==id);
   save();
 }
 
-// Save
 function save(){
   localStorage.setItem("leads", JSON.stringify(leads));
   showLeads();
 }
 
-// Init
 showLeads();
 
 </script>
